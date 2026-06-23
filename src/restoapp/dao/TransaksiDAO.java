@@ -147,4 +147,59 @@ public class TransaksiDAO {
 
         return list;
     }
+    
+    public TransaksiModel getTransaksiById(int idTransaksi) {
+    TransaksiModel transaksi = null;
+
+    String sql = "SELECT * FROM transaksi WHERE id_transaksi = ?";
+
+    try {
+        Connection conn = Koneksi.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, idTransaksi);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            transaksi = new TransaksiModel();
+
+            transaksi.setIdTransaksi(rs.getInt("id_transaksi"));
+            transaksi.setTanggal(rs.getString("tanggal"));
+            transaksi.setNamaPelanggan(rs.getString("nama_pelanggan"));
+            transaksi.setIdMenu(rs.getInt("id_menu"));
+            transaksi.setNamaMenu(rs.getString("nama_menu"));
+            transaksi.setHarga(rs.getDouble("harga"));
+            transaksi.setJumlah(rs.getInt("jumlah"));
+            transaksi.setTotal(rs.getDouble("total"));
+            transaksi.setBayar(rs.getDouble("bayar"));
+            transaksi.setKembalian(rs.getDouble("kembalian"));
+        }
+
+    } catch (Exception e) {
+        System.out.println("Gagal mengambil transaksi: " + e.getMessage());
+    }
+
+    return transaksi;
+}
+
+public boolean tambahStokMenu(int idMenu, int jumlah) {
+    String sql = "UPDATE menu_restoran SET stok = stok + ? WHERE id_menu = ?";
+
+    try {
+        Connection conn = Koneksi.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, jumlah);
+        ps.setInt(2, idMenu);
+
+        ps.executeUpdate();
+        return true;
+
+    } catch (Exception e) {
+        System.out.println("Gagal menambah stok menu: " + e.getMessage());
+        return false;
+    }
+}
+
 }
