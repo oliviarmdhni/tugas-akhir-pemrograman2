@@ -11,6 +11,7 @@ public class DashboardFrame extends JFrame {
     private JDesktopPane desktopPane;
     private JButton btnDataMenu;
     private JButton btnDataTransaksi;
+    private JButton btnLaporan;
     private JButton btnLogout;
 
     public DashboardFrame(String namaUser) {
@@ -29,7 +30,7 @@ public class DashboardFrame extends JFrame {
         add(lblJudul);
 
         JLabel lblUser = new JLabel("Login sebagai: " + namaUser);
-        lblUser.setBounds(700, 10, 220, 30);
+        lblUser.setBounds(650, 10, 270, 30);
         add(lblUser);
 
         btnDataMenu = new JButton("Data Menu");
@@ -40,8 +41,12 @@ public class DashboardFrame extends JFrame {
         btnDataTransaksi.setBounds(160, 50, 150, 35);
         add(btnDataTransaksi);
 
+        btnLaporan = new JButton("Laporan");
+        btnLaporan.setBounds(320, 50, 120, 35);
+        add(btnLaporan);
+
         btnLogout = new JButton("Logout");
-        btnLogout.setBounds(320, 50, 100, 35);
+        btnLogout.setBounds(450, 50, 100, 35);
         add(btnLogout);
 
         desktopPane = new JDesktopPane();
@@ -49,8 +54,8 @@ public class DashboardFrame extends JFrame {
         add(desktopPane);
 
         btnDataMenu.addActionListener(e -> bukaMenuInternalFrame());
-
         btnDataTransaksi.addActionListener(e -> bukaTransaksiInternalFrame());
+        btnLaporan.addActionListener(e -> bukaLaporanInternalFrame());
 
         btnLogout.addActionListener(e -> {
             int konfirmasi = JOptionPane.showConfirmDialog(
@@ -85,6 +90,17 @@ public class DashboardFrame extends JFrame {
         TransaksiInternalFrame transaksiFrame = new TransaksiInternalFrame();
         desktopPane.add(transaksiFrame);
         transaksiFrame.setVisible(true);
+
+        desktopPane.repaint();
+        desktopPane.revalidate();
+    }
+
+    private void bukaLaporanInternalFrame() {
+        desktopPane.removeAll();
+
+        LaporanTransaksiInternalFrame laporanFrame = new LaporanTransaksiInternalFrame();
+        desktopPane.add(laporanFrame);
+        laporanFrame.setVisible(true);
 
         desktopPane.repaint();
         desktopPane.revalidate();
